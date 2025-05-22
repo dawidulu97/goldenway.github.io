@@ -248,9 +248,39 @@
                 <div class="row"> 
                     <div class="col-lg-8 col-md-8 col-sm-12 col-12" style="font-family: sans-serif; font-size: 12px; text-align: justify;"> 
                         <div class="single-page-title"> 
-                            <h6><p><b style="text-transform: capitalize; text-align: justify;">With a mandate to ensure Indias energy security and self-sufficiency in refining &amp; marketing of petroleum products, IOC has in the past six decades provided energy access to millions of people across the length and breadth of the country through its ever-expanding network of over 47,800 customer touch-points,IOC controls 11 of India’s 23 refineries.</b><b></b></p><p style="text-transform: capitalize;"><b style="text-align: justify;">The group refining capacity is 80.7 mullion meteoric per annum (MMTPA - the largest share amino refining companies in India.</b><b></b></p><p style="text-transform: capitalize;"><b style="text-align: justify;">It accounts for 35% share of national refine capacity. IOC’s refineries include:</b><b></b></p></h6> 
                             <span></span> 
+
                             <h2><p><b></b></p><p><b></b></p><p><b></b></p></h2> 
+                            <h2 class="mb-4 text-center">Send Us a Message</h2>
+    <form id="contactForm" action="sendmail.php" method="POST">
+      <div class="mb-3">
+        <label for="company" class="form-label">Company Name</label>
+        <input type="text" class="form-control" id="company" name="company" required />
+      </div>
+      <div class="mb-3">
+        <label for="country" class="form-label">Country</label>
+        <input type="text" class="form-control" id="country" name="country" required />
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email Address</label>
+        <input type="email" class="form-control" id="email" name="email" required />
+      </div>
+      <div class="mb-3">
+        <label for="phone" class="form-label">Phone Number</label>
+        <input type="tel" class="form-control" id="phone" name="phone" required />
+      </div>
+      <div class="mb-3">
+        <label for="name" class="form-label">Your Name</label>
+        <input type="text" class="form-control" id="name" name="name" required />
+      </div>
+      <div class="mb-3">
+        <label for="message" class="form-label">Your Message</label>
+        <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Send Message</button>
+    </form>
+    <div id="formStatus" class="mt-3"></div>
+  </div>
                         </div>
                         <div class="col-lg-9 col-md-12 col-sm-12 col-12 d-flex" style="color: #ffffff;"> 
                             <div class="header-info-box" style="text-transform: capitalize;"> 
@@ -454,36 +484,7 @@ playback timings (ms):
         <link rel="stylesheet" href="./assests/responsive.css"> 
     </head>     
 
-    <h2 class="mb-4 text-center">Send Us a Message</h2>
-    <form id="contactForm" action="sendmail.php" method="POST">
-      <div class="mb-3">
-        <label for="company" class="form-label">Company Name</label>
-        <input type="text" class="form-control" id="company" name="company" required />
-      </div>
-      <div class="mb-3">
-        <label for="country" class="form-label">Country</label>
-        <input type="text" class="form-control" id="country" name="country" required />
-      </div>
-      <div class="mb-3">
-        <label for="email" class="form-label">Email Address</label>
-        <input type="email" class="form-control" id="email" name="email" required />
-      </div>
-      <div class="mb-3">
-        <label for="phone" class="form-label">Phone Number</label>
-        <input type="tel" class="form-control" id="phone" name="phone" required />
-      </div>
-      <div class="mb-3">
-        <label for="name" class="form-label">Your Name</label>
-        <input type="text" class="form-control" id="name" name="name" required />
-      </div>
-      <div class="mb-3">
-        <label for="message" class="form-label">Your Message</label>
-        <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary w-100">Send Message</button>
-    </form>
-    <div id="formStatus" class="mt-3"></div>
-  </div>
+    
 
 </body>
 </html>
