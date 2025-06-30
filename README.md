@@ -1,1 +1,1 @@
-mywpstatic
+goldenway
