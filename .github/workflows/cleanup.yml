@@ -1,4 +1,4 @@
-name: Clean URLs After Export
+name: Clean Content After Export
 
 on:
   push:
@@ -12,24 +12,25 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          token: ${{ secrets.GH_TOKEN }}  # Use the default token with proper permissions
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Remove hardcoded IPs in files
+      - name: Clean files
         run: |
-          echo "Scanning files for IP patterns..."
+          echo "Scanning and cleaning files..."
           # Search in all files except .git directory
           find . -type f \( -iname "*.html" -o -iname "*.css" -o -iname "*.js" \) | while read file; do
-            if grep -q "13\.61\.155\.137" "$file"; then
+            if grep -q -e "13\.61\.155\.137" -e "\[/vc_row_inner\]" "$file"; then
               echo "Processing: $file"
               # Create temp file for editing
               temp_file=$(mktemp)
-              # More comprehensive replacement patterns
+              # Replacement patterns
               sed \
                 -e 's|http[s]\?://13\.61\.155\.137||g' \
                 -e 's|//13\.61\.155\.137||g' \
                 -e 's|http[s]\?:\\/\\/13\.61\.155\.137||g' \
                 -e 's|\\/\\/13\.61\.155\.137||g' \
                 -e 's|13\.61\.155\.137||g' \
+                -e 's|\[/vc_row_inner\]||g' \
                 "$file" > "$temp_file"
               # Only overwrite if changes were made
               if ! cmp --silent "$file" "$temp_file"; then
@@ -52,10 +53,10 @@ jobs:
             echo "Changes detected"
           fi
 
-      - name: Commit and push cleaned files
+      - name: Commit and push changes
         if: steps.changes.outputs.has_changes == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Removed hardcoded IPs"
+          git commit -m "Cleaned content: removed IPs and vc_row_inner tags"
           git push
