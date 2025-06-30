@@ -3253,7 +3253,7 @@ object {
     position: absolute;
     top: 0;
     right: 0;
-    background: url("/wp-content/themes/industro/images/arrow-down-dark.png") no-repeat center center;
+    background: url("./images/arrow-down-dark.png") no-repeat center center;
     z-index: 10;
     cursor: pointer;
     transition: all 0.1s linear;
@@ -3263,7 +3263,7 @@ object {
     -ms-transition: all 0.1s linear;
   }
   .main-navigation li > span.clicked {
-    background-image: url("/wp-content/themes/industro/images/arrow-up-dark.png");
+    background-image: url("./images/arrow-up-dark.png");
   }
   .main-navigation li > span:hover {
     background-color: #eee;
