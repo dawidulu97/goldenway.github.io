@@ -2,7 +2,7 @@ name: Clean URLs After Export
 
 on:
   push:
-    branches: [ main ]  # Change to your export branch if needed
+    branches: [ main ]
 
 jobs:
   cleanup:
@@ -10,28 +10,46 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Important for git operations later
 
       - name: Remove hardcoded IPs in files
         run: |
           echo "Scanning files for IP patterns..."
-          find . -type f \( -iname "*.html" -o -iname "*.css" -o -iname "*.js" \) | while read file; do
-            echo "Processing: $file"
-            sed -i \
-              -e 's|http://13\.61\.155\.137||g' \
-              -e 's|https://13\.61\.155\.137||g' \
-              -e 's|//13\.61\.155\.137||g' \
-              -e 's|http:\\/\\/13\.61\.155\.137||g' \
-              -e 's|https:\\/\\/13\.61\.155\.137||g' \
-              -e 's|\\/\\/13\.61\.155\.137||g' \
-              "$file"
+          # Search in all files except .git directory
+          find . -type f -not -path './.git/*' | while read file; do
+            if grep -q "13\.61\.155\.137" "$file"; then
+              echo "Processing: $file"
+              # Backup original file (optional)
+              cp "$file" "$file.bak"
+              # More comprehensive replacement patterns
+              sed -i \
+                -e 's|http[s]\?://13\.61\.155\.137||g' \
+                -e 's|//13\.61\.155\.137||g' \
+                -e 's|http[s]\?:\\/\\/13\.61\.155\.137||g' \
+                -e 's|\\/\\/13\.61\.155\.137||g' \
+                -e 's|13\.61\.155\.137||g' \
+                "$file"
+            fi
           done
 
-   - name: Commit and push cleaned files
-  env:
-    GH_TOKEN: ${{ secrets.GH_TOKEN }}
-  run: |
-    git config user.name "github-actions"
-    git config user.email "actions@github.com"
-    git remote set-url origin https://x-access-token:$GH_TOKEN@github.com/${{ github.repository }}
-    git commit -am "Removed hardcoded IPs" || echo "No changes"
-    git push origin HEAD
+      - name: Check for changes
+        id: changes
+        run: |
+          git add .
+          if git diff --cached --quiet; then
+            echo "::set-output name=has_changes::false"
+            echo "No changes detected"
+          else
+            echo "::set-output name=has_changes::true"
+            echo "Changes detected"
+          fi
+
+      - name: Commit and push cleaned files
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git commit -m "Removed hardcoded IPs"
+          git push
